@@ -1,23 +1,21 @@
-# Stage 1: Build the Angular app
+# Stage 1: Build
 FROM node:20-alpine AS build
 WORKDIR /app
 
-# Copy package files and install dependencies
 COPY package*.json ./
 RUN npm install
 
-# Copy the rest of the code and build for production
 COPY . .
 RUN npm run build --configuration=production
 
-# Stage 2: Serve with Nginx
+# Stage 2: Serve
 FROM nginx:stable-alpine
-# Copy the build output to Nginx's html folder
-# Note: Replace 'your-app-name' with the actual folder name in dist/
-COPY --from=build /app/dist/*/browser /usr/share/nginx/html
 
-# Copy a custom nginx config if you have one for SPA routing
-# COPY nginx.conf /etc/nginx/conf.d/default.conf
+# Use a shell command to find the correct folder and move it to nginx html
+# This is safer than the wildcard COPY which can sometimes fail in certain environments
+COPY --from=build /app/dist /tmp/dist
+RUN find /tmp/dist -name "browser" -type d -exec cp -r {}/. /usr/share/nginx/html/ \; || \
+    cp -r /tmp/dist/*/. /usr/share/nginx/html/
 
 EXPOSE 80
 CMD ["nginx", "-g", "daemon off;"]
