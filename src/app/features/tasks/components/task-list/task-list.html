@@ -1,0 +1,16 @@
+<ul>
+
+    @for(task of userTask(); track task.id)
+    {
+    <li> <app-task-item [task]="task" (taskId)="onTaskCompleted($event)" (isEditing)="onEditingTask($event)" /></li>
+    <!-- <li> <app-task-item [task]="task" /></li> -->
+    }
+    @empty {
+    <li>No tasks found</li>
+    }
+
+
+
+
+
+</ul>

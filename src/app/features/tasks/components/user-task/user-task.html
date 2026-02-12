@@ -1,0 +1,12 @@
+<section id="tasks">
+    <header>
+        <h2>{{userName()}}'s Tasks</h2>
+        <menu>
+            <button (click)="onAddTask()">Add Task</button>
+            @if(isAddingTask || isEditing) {
+            <app-upsert-task (isAddingTask)="onCloseBox($event)" [userId]="userId()" />
+            }
+        </menu>
+    </header>
+    <app-task-list [userId]="userId()" (isEditing)="onEditingTask($event)" />
+</section>
