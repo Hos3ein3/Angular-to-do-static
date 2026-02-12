@@ -1,12 +1,21 @@
 <section id="tasks">
     <header>
         <h2>{{userName()}}'s Tasks</h2>
+
         <menu>
+            <small>
+                <button (click)="onChangeSorting()">
+                    <span style="height: 2px;" class="material-symbols-outlined">
+                        {{ sortingIsDesc ? 'arrow_drop_down' :'arrow_drop_up'}}
+                    </span>
+                </button>
+            </small>
+
             <button (click)="onAddTask()">Add Task</button>
-            @if(isAddingTask || isEditing) {
-            <app-upsert-task (isAddingTask)="onCloseBox($event)" [userId]="userId()" />
+            @if(isUpserting.upserting) {
+            <app-upsert-task (isUpserting)="onCloseBox($event)" [userId]="userId()" [taskId]="isUpserting.id" />
             }
         </menu>
     </header>
-    <app-task-list [userId]="userId()" (isEditing)="onEditingTask($event)" />
+    <app-task-list [sortingIsDesc]="sortingIsDesc" [userId]="userId()" (isUpserting)="onEditingTask($event)" />
 </section>

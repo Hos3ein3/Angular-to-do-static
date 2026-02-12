@@ -3,10 +3,11 @@ import { User } from '../../../../core/models/user.model';
 import { UserItem } from "../user-item/user-item";
 import { LIST_USERS } from '../../../../core/data/dummy-users';
 import { UsersService } from '../../../../core/services/users.service';
+import { Card } from "../../../../core/layout/card/card";
 
 @Component({
   selector: 'app-user-list',
-  imports: [UserItem],
+  imports: [UserItem, Card],
   templateUrl: './user-list.html',
   styleUrl: './user-list.css',
 })

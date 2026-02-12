@@ -14,19 +14,18 @@ import { TasksService } from '../../../../core/services/tasks.service';
 export class TaskList {
   userId = input.required<string>();
   private taskService = inject(TasksService);
-  isEditing = output<{ id: string, isEditing: boolean }>();
+  isUpserting = output<{ id: string, upserting: boolean }>();
   userTask = computed(() => {
     //console.log('TaskList computing for userId:', this.userId());
-    return this.taskService.getUserTasks(this.userId());
+    return this.taskService.getUserTasks(this.userId(), this.sortingIsDesc());
   });
+  sortingIsDesc = input.required<boolean>();
 
 
-  onTaskCompleted(taskId: string) {
-    console.log(taskId);
-    this.taskService.removeTask(taskId);
-  }
-  onEditingTask(isEditing: { id: string, isEditing: boolean }) {
-    this.isEditing.emit(isEditing);
+
+  onEditingTask(isUpserting: { id: string, upserting: boolean }) {
+    //console.log(isUpserting);
+    this.isUpserting.emit(isUpserting);
   }
 
 

@@ -1,24 +1,33 @@
 import { Component, EventEmitter, Input, output, Output } from '@angular/core';
+import { DatePipe } from '@angular/common';
 import { Task } from '../../../../core/models/task.model';
+import { Card } from "../../../../core/layout/card/card";
+import { TasksService } from '../../../../core/services/tasks.service';
+import { UpsertTask } from "../upsert-task/upsert-task";
 
 @Component({
   selector: 'app-task-item',
-  imports: [],
+  imports: [Card, DatePipe, UpsertTask],
   templateUrl: './task-item.html',
   styleUrl: './task-item.css',
 })
 export class TaskItem {
   //isEditing = false;
-  @Input({ required: true }) task?: Task | null;
+  @Input({ required: true }) task!: Task;
   @Output() taskId = new EventEmitter<string>();
-  isEditing = output<{ id: string, isEditing: boolean }>();
+  isUpserting = output<{ id: string, upserting: boolean }>();
 
-  onCompletingTask(taskId: string) {
-    //console.log(taskId);
-    this.taskId.emit(taskId);
+  constructor(private taskService: TasksService) {
+
+  }
+
+  onTaskCompleting(taskId: string) {
+    console.log(taskId);
+    this.taskService.removeTask(taskId);
   }
 
   onEditingTask(taskId: string) {
-    this.isEditing.emit({ id: taskId, isEditing: true });
+    //console.log(taskId);
+    this.isUpserting.emit({ id: taskId, upserting: true });
   }
 }

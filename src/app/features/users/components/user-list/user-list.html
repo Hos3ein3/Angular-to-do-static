@@ -1,7 +1,9 @@
 @for(user of users;track user.id){
-<div>
-    <li>
+<li>
+    <app-card>
         <app-user-item [user]="user" (selectedUserId)="onUserSelected($event)" />
-    </li>
-</div>
+    </app-card>
+
+
+</li>
 }

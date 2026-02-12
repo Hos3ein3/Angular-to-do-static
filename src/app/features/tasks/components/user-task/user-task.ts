@@ -15,23 +15,25 @@ export class UserTask {
   //user: User | undefined;
   private userService = inject(UsersService);
   userId = input.required<string>();
-  isEditing: any;
-  isAddingTask: boolean = false;
+  isUpserting = { id: '', upserting: false };
   userName = computed(() => {
     //console.log(this.userId());
     return this.userService.getUserById(this.userId())?.name;
   });
   // @Input() user: User | undefined;
   //name? = input<string | undefined>();
-
+  sortingIsDesc = false;
   onAddTask() {
-    this.isAddingTask = true;
+    this.isUpserting = { id: '', upserting: true };
   }
-  onCloseBox(isAddingTask: boolean) {
-    this.isAddingTask = false;
+  onCloseBox(isUpserting: { id: string, upserting: boolean }) {
+    this.isUpserting = { id: '', upserting: false };
   }
-  onEditingTask(isEditing: { id: string, isEditing: boolean }) {
-    this.isEditing = isEditing;
+  onEditingTask(isUpserting: { id: string, upserting: boolean }) {
+    //console.log(isUpserting);
+    this.isUpserting = isUpserting;
   }
-
+  onChangeSorting() {
+    this.sortingIsDesc = !this.sortingIsDesc;
+  }
 }

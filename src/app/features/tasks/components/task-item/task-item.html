@@ -1,18 +1,20 @@
-<article>
+<app-card>
+    <article>
 
-    <h2>{{task?.title}}</h2>
-    <time>{{task?.dueDate}}</time>
-    <p>{{task?.summary}}</p>
-    <div>
+        <h2>{{task.title}}</h2>
+        <time>{{task.dueDate | date}}</time>
+        <p>{{task.summary}}</p>
+        <div>
 
-        <p class="actions">
-            <button (click)="onCompletingTask(task!.id)">Complete</button>
+            <p class="actions">
+                <button (click)="onTaskCompleting(task.id)">Complete</button>
 
-            <button (click)="onEditingTask(task!.id)">
-                <span class="material-symbols-outlined">
-                    edit
-                </span>
-            </button>
-        </p>
-    </div>
-</article>
+                <button (click)="onEditingTask(task.id)">
+                    <span class="material-symbols-outlined ">
+                        edit
+                    </span>
+                </button>
+            </p>
+        </div>
+    </article>
+</app-card>
