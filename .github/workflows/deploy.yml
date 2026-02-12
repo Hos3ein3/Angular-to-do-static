@@ -1,0 +1,29 @@
+name: Build and Deploy Angular
+
+on:
+  push:
+    branches: [main] # Triggers every time you push to main
+
+jobs:
+  deploy:
+    runs-on: self-hosted # This forces the job to run on your homelab runner
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Build Docker Image
+        run: docker build -t angular-todo-app:latest .
+
+      - name: Remove Old Container
+        run: |
+          docker stop angular-todo-instance || true
+          docker rm angular-todo-instance || true
+
+      - name: Run New Container
+        run: |
+          docker run -d \
+            --name angular-todo-instance \
+            --restart always \
+            --network homelab-docker-network \
+            -p 3007:80 \
+            angular-todo-app:latest
